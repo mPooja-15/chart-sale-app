@@ -1,0 +1,30 @@
+.chart-container {
+  height: 400px; /* Set an appropriate height */
+  width: 600px; /* Set an appropriate width */
+}
+.main-dashboard {
+  display: flex;
+  justify-content: space-between;
+}
+.App-header {
+  background-color: #282c34;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
