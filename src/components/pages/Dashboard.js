@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Bar, Doughnut } from "react-chartjs-2";
-import { Paper, Box, Grid } from "@mui/material";
 import {
   Chart,
   CategoryScale,
@@ -10,6 +9,8 @@ import {
   Tooltip,
   ArcElement,
 } from "chart.js";
+import { Paper, Box, Grid, Table, TableHead, TableBody, TableRow, TableCell } from "@mui/material";
+
 import { getSaleData } from "../auth/core/api";
 Chart.register(
   CategoryScale,
@@ -108,7 +109,14 @@ const Dashboard = () => {
   };
 
   const chartData = generateChartData();
-
+  const months = data.salesData.reduce((acc, curr) => {
+    curr.sales.forEach((sale) => {
+      if (!acc.includes(sale.month)) {
+        acc.push(sale.month);
+      }
+    });
+    return acc;
+  }, []);
   if (!data) {
     return <div>Loading...</div>;
   }
@@ -150,6 +158,38 @@ const Dashboard = () => {
               />
             </Box>
           </Paper>
+
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Paper elevation={3} sx={{ p: 2 }}>
+            <h3>Product Table</h3>
+            <Box sx={{ overflowX: 'auto' }}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Product Name</TableCell>
+                    {months.map((month) => (
+                      <TableCell key={month}>{month}</TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {data.salesData.map((item) => (
+                    <TableRow key={item.product}>
+                      <TableCell>{item.product}</TableCell>
+                      {months.map((month) => {
+                        const saleData = item.sales.find((sale) => sale.month === month);
+                        return (
+                          <TableCell key={month}>{saleData ? saleData.amount : 0}</TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Box>
+          </Paper>
+          
         </Grid>
       </Grid>
     </div>
